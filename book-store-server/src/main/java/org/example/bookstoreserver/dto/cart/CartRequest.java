@@ -2,7 +2,6 @@ package org.example.bookstoreserver.dto.cart;
 
 
 public class CartRequest {
-
     private Long productId;
 
     private int quantity;
