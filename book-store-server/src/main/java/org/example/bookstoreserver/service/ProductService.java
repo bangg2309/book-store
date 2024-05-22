@@ -1,5 +1,6 @@
 package org.example.bookstoreserver.service;
 
+import org.example.bookstoreserver.exception.NotFoundException;
 import org.example.bookstoreserver.exception.ProductException;
 import org.example.bookstoreserver.model.Product;
 import org.example.bookstoreserver.repositories.ProductRepository;
@@ -40,5 +41,13 @@ public class ProductService {
             throw new ProductException("Get new arrivals failed");
         }
 
+    }
+    //tim kiem
+    public List<Product> search(String name) {
+        try {
+            return productRepository.findByNameContaining(name);
+        }catch (ProductException ex){
+            throw new NotFoundException("not found products with key: " + name);
+        }
     }
 }

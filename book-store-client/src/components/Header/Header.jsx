@@ -8,6 +8,7 @@ import {
   FaShoppingBag,
 } from "react-icons/fa";
 import SearchProduct from "./SearchProduct";
+import * as productService from "../../apiService/productService";
 function Headers() {
 const  [search, setSearch] = useState("");
 const [isClose, setIsClose] = useState(true);
@@ -16,10 +17,10 @@ const [searchResult, setSearchResult] = useState([]);
 
 let info = JSON.parse(localStorage.getItem('user'));
 
-  const searchProduct = async () => {
-    const response = '';
-     setSearchResult(response);
-  }
+    const searchProduct = async () => {
+        const response = await productService.searchProductByName(search);
+        setSearchResult(response?.data);
+    }
 const handleSearch = () => {
   if(search.length > 0) {
     searchProduct().then(r => {
