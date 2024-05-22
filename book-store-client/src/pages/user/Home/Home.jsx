@@ -3,7 +3,6 @@ import UserLayout from "../../../components/common/Layout/UserLayout";
 import Carousels from "./Carousel";
 import Sliders from "./Sliders";
 import Image from "../../../assets/img/Image1.png";
-import Image2 from "../../../assets/img/Image2.png";
 import * as productsService from "../../../apiService/productService";
 
 
