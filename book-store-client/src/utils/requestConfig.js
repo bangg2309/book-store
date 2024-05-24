@@ -10,7 +10,6 @@ export const getUnauth = async (url) => {
     return await axios({
         url: `${baseURL}${url}`,
         method: "GET",
-
     });
 }
 export const get = async (url) => {

@@ -1,9 +1,14 @@
-import React,{memo} from "react";
+import React, {memo, useContext, useState} from "react";
 import { Link } from "react-router-dom";
+import { IoMdClose } from "react-icons/io";
 
-function SearchProduct({ product, close}) {
+function SearchProduct({ product, close, setClose}) {
+  const handleModal = (e) => {
+    setClose(!close);
+  };
   return (
-    <div  className={` bg-white rounded-md shadow-lg p-5 max-h-[500px]  overflow-y-auto  ${close ? 'hidden' : ''}`}>
+    <div  className={` relative bg-white rounded-md shadow-lg p-7 max-h-[500px]  overflow-y-auto  ${close ? 'hidden' : ''}`}>
+      <IoMdClose className={`fixed top-2 right-4 size-5`} onClick={handleModal}/>
     {product.length<=0 ? 
             <>
               <div className={`w-full h-[50px] pt-3 `}>

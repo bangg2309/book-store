@@ -9,3 +9,6 @@ export const getBestSellers = async () => {
 export const getAllProduct = async (page, size) => {
     return await publicRequest.getUnauth(`products?page=${page}&size=${size}`);
 }
+export const searchProductByName = async (name) => {
+    return await publicRequest.getUnauth(`products/search?name=${name}`);
+}

@@ -1,8 +1,6 @@
 import React, {useEffect} from "react";
 import {Route, Routes, useLocation, useNavigate} from "react-router-dom";
 import Home from "../pages/user/Home/Home";
-
-
 function UserRouter() {
     const [isLogin, setIsLogin] = React.useState(false);
     const navigate = useNavigate();
@@ -16,11 +14,11 @@ function UserRouter() {
             }
             window.scrollTo(0, 0);
         }, [pathname, isLogin, token]);
-
         return null;
     }
   return (
     <div>
+      <ScrollToTop />
       <Routes>
         <Route>
         <Route path="/" exact element={<Home />} />
