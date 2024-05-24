@@ -3,7 +3,7 @@ import Logo from '../../assets/img/Bookworn.svg'
 function Footer() {
   return (
     <div className='bg-primary'>
-      <div className='container mx-auto flex py-20 justify-center text-white text-left'>
+      <div className='flex p-10 justify-center text-white text-left'>
       <div className='basis-1/3'>
         <img src={Logo} alt="" />
       </div>

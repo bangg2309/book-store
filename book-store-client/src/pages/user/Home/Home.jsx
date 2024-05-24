@@ -4,6 +4,7 @@ import ProductCard from "../../../components/ProductCard/ProductCard";
 import Carousels from "./Carousel";
 import Sliders from "./Sliders";
 import Image from "../../../assets/img/Image1.png";
+import Image2 from "../../../assets/img/Image2.png";
 import * as productsService from "../../../apiService/productService";
 import { useTranslation } from "react-i18next";
 
