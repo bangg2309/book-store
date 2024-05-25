@@ -1,6 +1,8 @@
 package org.example.bookstoreserver.controller;
 
+import jakarta.validation.Valid;
 import org.example.bookstoreserver.Validator;
+import org.example.bookstoreserver.dto.ProductRequest;
 import org.example.bookstoreserver.exception.CustomExceptionHandler;
 import org.example.bookstoreserver.exception.NotFoundException;
 import org.example.bookstoreserver.exception.ProductException;
@@ -12,6 +14,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -62,6 +66,36 @@ public class ProductController {
             return ResponseEntity.ok(productService.search(name));
         }catch (NotFoundException ex){
             return customExceptionHandler.handleNotFoundException(ex);
+        }
+    }
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<?> deleteProductById(@PathVariable Long id){
+        try {
+            productService.deleteProductById(id);
+            return ResponseEntity.ok("Delete product successfully");
+        }catch (ProductException ex){
+            return customExceptionHandler.handleProductException(ex);
+        }catch (NotFoundException ex){
+            return customExceptionHandler.handleNotFoundException(ex);
+        }
+
+    }
+    @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<?> updateProductById(@PathVariable Long id, @RequestBody @Valid ProductRequest productRequest, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            List<String> errorMessage = validator.getErrorMessage(bindingResult);
+            return ResponseEntity.badRequest().body(errorMessage);
+        }
+
+        try {
+            productService.updateProduct(id, productRequest);
+            return ResponseEntity.ok("Update product successfully");
+        } catch (NotFoundException e) {
+            return customExceptionHandler.handleNotFoundException(e);
+        }catch (ProductException ex){
+            return customExceptionHandler.handleProductException(ex);
         }
     }
 }
