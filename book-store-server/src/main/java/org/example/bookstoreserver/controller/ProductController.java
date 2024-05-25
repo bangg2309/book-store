@@ -2,6 +2,7 @@ package org.example.bookstoreserver.controller;
 
 import org.example.bookstoreserver.Validator;
 import org.example.bookstoreserver.exception.CustomExceptionHandler;
+import org.example.bookstoreserver.exception.NotFoundException;
 import org.example.bookstoreserver.exception.ProductException;
 import org.example.bookstoreserver.model.Product;
 import org.example.bookstoreserver.repositories.PublisherRepository;
@@ -54,4 +55,13 @@ public class ProductController {
         return ResponseEntity.ok(productService.getBestSeller());
     }
 
+    //Search....
+    @GetMapping("/search")
+    public ResponseEntity<?> searchProductsByName(@RequestParam("name") String name) {
+        try{
+            return ResponseEntity.ok(productService.search(name));
+        }catch (NotFoundException ex){
+            return customExceptionHandler.handleNotFoundException(ex);
+        }
+    }
 }

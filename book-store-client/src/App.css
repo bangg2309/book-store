@@ -30,10 +30,7 @@
 .App-link {
   color: #61dafb;
 }
-#bg{
-  background-image: url("././assets/img/bgroud.jpg");
-  background-size: cover;
-}
+
 input::-webkit-inner-spin-button,
 input::-webkit-outer-spin-button {
   -webkit-appearance: none;
@@ -46,4 +43,24 @@ input::-webkit-outer-spin-button {
   to {
     transform: rotate(360deg);
   }
+}
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #d5d5d5;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #a7a7a7;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
