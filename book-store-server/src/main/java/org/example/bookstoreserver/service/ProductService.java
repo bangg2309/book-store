@@ -38,8 +38,8 @@ public class ProductService {
 
         Category category = categoryRepository.findById(productRequest.getCategoryId())
                 .orElseThrow(() -> new NotFoundException("Category not found with ID: " + productRequest.getCategoryId()));
-        Publisher publisher = PublisherRepository.findByName(productRequest.getPublisher());
-        Author author = AuthorRepository.findByName(productRequest.getAuthor());
+        Publisher publisher = publisherRepository.findByName(productRequest.getPublisher());
+        Author author = authorRepository.findByName(productRequest.getAuthor());
         if(author == null ){
             Author author1 = new Author();
             author1.setName(productRequest.getAuthor());
