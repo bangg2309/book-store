@@ -16,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -114,6 +115,18 @@ public class ProductService {
             return getProduct(productRequest, product);
         }catch (ProductException ex){
             throw new ProductException("Update product failed");
+        }
+
+    }
+    public Product saveProduct(ProductRequest productRequest) {
+        try {
+            Product product = new Product();
+            product.setSales(0);
+            Date currentDate = new Date();
+            product.setCreateAt(currentDate);
+            return getProduct(productRequest, product);
+        }catch (ProductException ex){
+            throw new ProductException("Save product failed");
         }
 
     }
