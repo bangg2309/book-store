@@ -58,7 +58,7 @@ function EditProduct() {
       console.log(res);
       if(res.status === 200){
         toast.success("Update product success!", {
-          position: toast.POSITION.TOP_RIGHT,
+          position: "top-right",
             autoClose: 2000,
             hideProgressBar: true,
             closeOnClick: true,
@@ -69,7 +69,7 @@ function EditProduct() {
     }catch(error){
         if(error.response.status === 400){
           toast.error("Update product failed!", {
-            position: toast.POSITION.TOP_RIGHT,
+            position: "top-right",
               autoClose: 2000,
               hideProgressBar: true,
               closeOnClick: true,
