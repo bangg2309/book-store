@@ -68,6 +68,24 @@ public class ProductController {
             return customExceptionHandler.handleNotFoundException(ex);
         }
     }
+    @PostMapping
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<?> createProduct (@RequestBody @Valid ProductRequest productRequest, BindingResult bindingResult){
+
+        if(bindingResult.hasErrors()){
+            List<String> errorMessage = validator.getErrorMessage(bindingResult);
+            return ResponseEntity.badRequest().body(errorMessage);
+        }
+        try {
+            productService.saveProduct(productRequest);
+            return ResponseEntity.ok("Successfully");
+        }catch (ProductException ex){
+            return customExceptionHandler.handleProductException(ex);
+        }catch (NotFoundException ex){
+            return customExceptionHandler.handleNotFoundException(ex);
+        }
+
+    }
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> deleteProductById(@PathVariable Long id){
