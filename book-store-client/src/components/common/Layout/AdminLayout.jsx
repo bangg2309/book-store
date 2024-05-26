@@ -3,7 +3,7 @@ import SideBar from '../../SideBar/SideBar'
 
 import NewProduct from '../../../pages/admin/ProductManager/NewProduct'
 import EditProduct from '../../../pages/admin/ProductManager/EditProduct'
-import EditOrder from '../../../pages/admin/OrderManager/EditOrder'
+// import EditOrder from '../../../pages/admin/OrderManager/EditOrder'
 
 function AdminLayout({children}) {
  
@@ -14,7 +14,7 @@ function AdminLayout({children}) {
       <div>
       <NewProduct/>
       <EditProduct/>
-      <EditOrder/>
+      {/*<EditOrder/>*/}
       </div>
      
       

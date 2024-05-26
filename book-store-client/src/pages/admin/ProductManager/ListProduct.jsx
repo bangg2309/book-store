@@ -50,19 +50,19 @@ const handleDelete = (id) => {
     const res = await productService.deleteProductById(id);
       if(res.status === 200){
         toast.success("Delete product success!", {
-          position: toast.POSITION.TOP_RIGHT,
+          position: "top-right",
             autoClose: 2000,
             hideProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
         });
-        fetchProducts();
+        await fetchProducts();
       }
     } catch (error) {
       if(error.response && error.response.status === 403){
         toast.error("Delete product failed!", {
-          position: toast.POSITION.TOP_RIGHT,
+          position: "top-right",
             autoClose: 2000,
             hideProgressBar: true,
             closeOnClick: true,

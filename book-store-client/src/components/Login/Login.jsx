@@ -10,12 +10,13 @@ import { actions } from '../../store'
 import { useTranslation } from 'react-i18next';
 import { Formik, Form, Field, ErrorMessage, validateYupSchema } from 'formik';
 import * as Yup from 'yup';
+import 'react-toastify/dist/ReactToastify.css';
 function Login() {
   const {t} = useTranslation();
   const [cart, dispatch] = useContext(StoreContext)
   const navigate = useNavigate();
   const toastConfig = {
-    position: "top-right",
+    position: toast("top-right"),
     autoClose: 3000,
     hideProgressBar: true,
     closeOnClick: true,
