@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.example.bookstoreserver.Validator;
+import org.example.bookstoreserver.dto.cart.CartDto;
 import org.example.bookstoreserver.dto.cart.CartRequest;
 import org.example.bookstoreserver.exception.CustomExceptionHandler;
 import org.example.bookstoreserver.exception.NotFoundException;
@@ -15,10 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -41,6 +39,16 @@ public class CartController {
     public CartController(CartService cartService) {
         this.cartService = cartService;
     }
+    @GetMapping()
+    public ResponseEntity<CartDto> getCartByUser(HttpServletRequest request) {
+
+        CartDto cartDto = this.cartService.getCartByUserId(request);
+        if (cartDto == null) {
+            return null;
+        }
+        return ResponseEntity.ok(cartDto);
+    }
+
 
     @PostMapping()
     public ResponseEntity<?> addToCart(HttpServletRequest request, HttpServletResponse response, @RequestBody @Valid CartRequest cartRequest) {
