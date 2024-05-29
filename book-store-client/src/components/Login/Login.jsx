@@ -16,7 +16,7 @@ function Login() {
   const [cart, dispatch] = useContext(StoreContext)
   const navigate = useNavigate();
   const toastConfig = {
-    position: toast("top-right"),
+    // position: toast("top-right"),
     autoClose: 3000,
     hideProgressBar: true,
     closeOnClick: true,

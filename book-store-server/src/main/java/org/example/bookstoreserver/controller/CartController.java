@@ -55,9 +55,9 @@ public class CartController {
 
         final String token;
         final String authHeader = request.getHeader("Authorization");
-        //2. Kiểm tra xem người dùng đã đăng nhập chưa
+        //12.6.3 Kiểm tra xem người dùng đã đăng nhập chưa
         if (!isLogin(request)) {
-            // 3. Nếu chưa đăng nhập thì trả về lỗi "Authorization not valid" với status code 400
+            //12.6.15 Nếu chưa đăng nhập thì trả về thông báo "Authorization not valid" với status code 400
             return ResponseEntity.badRequest().body("Authorization not valid");
         }
         token = authHeader.substring(7);
@@ -66,10 +66,10 @@ public class CartController {
         Long userId = user.getId();
         Long productId = cartRequest.getProductId();
         int quantity = cartRequest.getQuantity();
-        // 3. Gọi phương thức addToCart của CartService để thêm sản phẩm vào giỏ hàng
+        // 12.6.4 Gọi phương thức addToCart của CartService để thêm sản phẩm vào giỏ hàng
         cartService.addToCart(userId, productId, quantity);
 
-        //12. Trả về thông báo "Add to cart successfully" với status code 200
+        //12.6.13 Trả về thông báo "Add to cart successfully" với status code 200
         return ResponseEntity.ok("Add to cart successfully");
     }
 

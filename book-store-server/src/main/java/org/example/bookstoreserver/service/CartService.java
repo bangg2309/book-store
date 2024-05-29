@@ -59,13 +59,13 @@ public class CartService {
     }
 
     public void addToCart(Long userId, Long productId, Integer quantity) {
-        // 4. Lấy thông tin sản phẩm theo productId
+        //12.6.5 Lấy thông tin sản phẩm theo productId từ database
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new NotFoundException("Product not found"));
-        // 5. Lấy thông tin người dùng theo userId
+        // 12.6.6 Lấy thông tin người dùng theo userId từ database
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("User not found"));
-        // 6. Lấy giỏ hàng của người dùng nếu có, nếu không tạo mới
+        // 12.6.7 Lấy thông tin giỏ hàng của người dùng, nếu chưa có thì tạo mới
         Cart cart = user.getCart();
         if (cart == null) {
             cart = new Cart();
@@ -75,23 +75,23 @@ public class CartService {
             user.setCart(cart);
             userRepository.save(user);
         }
-        // 7. Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
+        // 12.6.8 Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
         CartItem cartItem = cart.getCartItemByProductId(productId);
-        // 8. Nếu chưa có thì tạo mới CartItem
+        // 12.6.9 Nếu chưa có thì tạo mới CartItem
         if (cartItem == null) {
             cartItem = new CartItem();
             cartItem.setProduct(product);
             cartItem.setQuantity(quantity);
 
-            // 9. Thêm CartItem vào giỏ hàng
+            // 12.6.10 Thêm CartItem vào giỏ hàng
             cart.addCartItem(cartItem);
         } else {
-            // 9. Nếu đã có thì cập nhật số lượng
+            // 12.6.17 Nếu đã có thì cập nhật số lượng sản phẩm
             cartItem.setQuantity(cartItem.getQuantity() + quantity);
         }
-        // 10. Lưu thông tin CartItem xuống database
+        // 12.6.11 Lưu thông tin CartItem xuống database
         cartItemRepository.save(cartItem);
-        // 11. Lưu thông tin giỏ hàng xuống database
+        // 12.6.12 Lưu thông tin giỏ hàng xuống database
         cartRepository.save(cart);
     }
 }
