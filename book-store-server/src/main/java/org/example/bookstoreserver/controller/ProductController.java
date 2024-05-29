@@ -19,6 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/products")
@@ -125,5 +126,11 @@ public class ProductController {
         }catch (ProductException ex){
             return customExceptionHandler.handleProductException(ex);
         }
+    }
+
+    // product detail
+    @GetMapping("{id}")
+    public ResponseEntity<Optional<Product>> getProductById(@PathVariable("id") Long productId) {
+        return ResponseEntity.ok(productService.findProductById(productId));
     }
 }
