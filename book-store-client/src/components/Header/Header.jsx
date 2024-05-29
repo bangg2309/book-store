@@ -1,7 +1,7 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import Logo from "../../assets/img/Bookworn.svg";
 import {Badge} from "antd";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {
     FaSearch,
     FaUser,
@@ -9,14 +9,51 @@ import {
 } from "react-icons/fa";
 import SearchProduct from "./SearchProduct";
 import * as productService from "../../apiService/productService";
+import * as actions from "../../state/actions";
+import {StoreContext} from "../../store";
+import * as authService from "../../apiService/authService";
+import {toast} from "react-toastify";
 
 function Headers() {
     const [search, setSearch] = useState("");
     const [isClose, setIsClose] = useState(true);
     const [noResult, setNoResult] = useState(false);
     const [searchResult, setSearchResult] = useState([]);
+    const [cart, dispatch] = useContext(StoreContext);
+    const [user, setUser] = useState(null);
+    const navigate = useNavigate();
 
     let info = JSON.parse(localStorage.getItem('user'));
+
+    const handleLogout = () => {
+        const fetchLogout = async () => {
+            const response = await authService.logout();
+            if (response?.status === 200) {
+                localStorage.removeItem('user');
+                dispatch(actions.setQuantityCart(0));
+                navigate('/');
+                toast.success("Logout success", {
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                });
+                localStorage.removeItem('token');
+                setUser(null);
+            } else {
+                toast.error("Logout failed", {
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                });
+            }
+
+        }
+        fetchLogout();
+    }
 
     const searchProduct = async () => {
         const response = await productService.searchProductByName(search);
@@ -78,7 +115,8 @@ function Headers() {
                                         <p className=" ml-2 mr-6">{info?.fullName}</p>
 
                                     </div>
-                                    <p className="transition-all cursor-pointer group-hover:opacity-100 group-hover:top-full mt-[5px] opacity-0 z-[20] absolute top-[50%] left-[50%] translate-x-[-50%] min-w-max bg-[#0000007e] text-white font-medium rounded-[8px] text-sm px-3.5 py-2">
+                                    <p className="transition-all cursor-pointer group-hover:opacity-100 group-hover:top-full mt-[5px] opacity-0 z-[20] absolute top-[50%] left-[50%] translate-x-[-50%] min-w-max bg-[#0000007e] text-white font-medium rounded-[8px] text-sm px-3.5 py-2"
+                                       onClick={handleLogout}>
                     <span
                         className="absolute bottom-[99%] left-[50%] translate-x-[-50%] border-[7px] border-[transparent] border-b-[#0000007e]"/>
                                         Logout

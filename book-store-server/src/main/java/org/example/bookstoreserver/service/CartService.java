@@ -1,5 +1,8 @@
 package org.example.bookstoreserver.service;
 
+import jakarta.servlet.http.HttpServletRequest;
+import org.example.bookstoreserver.dto.cart.CartDto;
+import org.example.bookstoreserver.dto.cart.CartItemDto;
 import org.example.bookstoreserver.exception.NotFoundException;
 import org.example.bookstoreserver.model.Cart;
 import org.example.bookstoreserver.model.CartItem;
@@ -11,6 +14,9 @@ import org.example.bookstoreserver.repositories.ProductRepository;
 import org.example.bookstoreserver.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class CartService {
@@ -24,6 +30,33 @@ public class CartService {
     private ProductRepository productRepository;
     @Autowired
     private UserRepository userRepository;
+
+    public CartDto getCartByUserId(HttpServletRequest request) {
+        final String authHeader = request.getHeader("Authorization");
+        final String token;
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return null;
+        }
+        token = authHeader.substring(7);
+        String username = jwtService.extractUsername(token);
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new NotFoundException("User not found"));
+        Cart cart = user.getCart();
+        if (cart == null) {
+            return null;
+        } else {
+            List<CartItemDto> cartItems = new ArrayList<>();
+            double totalCost = 0;
+            for (CartItem c : cart.getCartItems()) {
+                CartItemDto cartItemDto = new CartItemDto(c);
+                totalCost += cartItemDto.getQuantity() * c.getProduct().getPrice();
+                cartItems.add(cartItemDto);
+            }
+            CartDto cartDto = new CartDto();
+            cartDto.setTotalCost(totalCost);
+            cartDto.setCartItems(cartItems);
+            return cartDto;
+        }
+    }
 
     public void addToCart(Long userId, Long productId, Integer quantity) {
         // 4. Lấy thông tin sản phẩm theo productId
