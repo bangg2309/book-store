@@ -68,15 +68,18 @@ public class ProductController {
             return customExceptionHandler.handleNotFoundException(ex);
         }
     }
+    //    với điều kiện role là admin
     @PostMapping
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> createProduct (@RequestBody @Valid ProductRequest productRequest, BindingResult bindingResult){
-
+//        Kiểm tra xem có lỗi không
         if(bindingResult.hasErrors()){
             List<String> errorMessage = validator.getErrorMessage(bindingResult);
+//            Trả về lỗi
             return ResponseEntity.badRequest().body(errorMessage);
         }
         try {
+//            nếu không có lỗi thì gọi hàm saveProduct lưu sản phẩm (thêm sản phẩm)
             productService.saveProduct(productRequest);
             return ResponseEntity.ok("Successfully");
         }catch (ProductException ex){
@@ -86,10 +89,13 @@ public class ProductController {
         }
 
     }
+    //    Lấy sản phẩm theo id với điều kiện role là admin
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> deleteProductById(@PathVariable Long id){
         try {
+//            gọi hàm xóa sản phẩm theo id
+//            nếu không tìm thấy sản phẩm thì ném ra ngoại lệ NotFoundException
             productService.deleteProductById(id);
             return ResponseEntity.ok("Delete product successfully");
         }catch (ProductException ex){
@@ -99,15 +105,19 @@ public class ProductController {
         }
 
     }
+//    Lấy sản phẩm theo id với điều kiện role là admin
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> updateProductById(@PathVariable Long id, @RequestBody @Valid ProductRequest productRequest, BindingResult bindingResult) {
+//        Kiểm tra xem có lỗi không
         if(bindingResult.hasErrors()){
             List<String> errorMessage = validator.getErrorMessage(bindingResult);
             return ResponseEntity.badRequest().body(errorMessage);
         }
 
         try {
+//            gọi hàm update sản phẩm theo id
+//            nếu không tìm thấy sản phẩm thì ném ra ngoại lệ NotFoundException
             productService.updateProduct(id, productRequest);
             return ResponseEntity.ok("Update product successfully");
         } catch (NotFoundException e) {
