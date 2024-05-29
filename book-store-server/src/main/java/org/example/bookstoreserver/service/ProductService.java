@@ -3,6 +3,7 @@ package org.example.bookstoreserver.service;
 import org.example.bookstoreserver.dto.ProductRequest;
 import org.example.bookstoreserver.exception.NotFoundException;
 import org.example.bookstoreserver.exception.ProductException;
+import org.example.bookstoreserver.exception.ResourceNotFoundProduct;
 import org.example.bookstoreserver.model.Author;
 import org.example.bookstoreserver.model.Category;
 import org.example.bookstoreserver.model.Product;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -143,5 +145,14 @@ public class ProductService {
             throw new ProductException("Save product failed");
         }
 
+    }
+
+    // product detail
+    public Optional<Product> findProductById(Long productId) {
+        try {
+            return productRepository.findById(productId);
+        } catch (Exception e) {
+            throw new ResourceNotFoundProduct ("Product not found: " + productId);
+        }
     }
 }
